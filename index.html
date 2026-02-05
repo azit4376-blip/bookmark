@@ -24,6 +24,7 @@
             --text-dark: #1d1d1f;
             --text-gray: #6e6e73;
             --card-bg: #ffffff;
+            --gap-size: 25px;
         }
         body { 
             font-family: 'Pretendard', -apple-system, sans-serif;
@@ -31,33 +32,18 @@
             color: var(--text-dark); min-height: 100vh;
         }
 
-        /* 상단 유틸리티 메뉴 */
         .top-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: flex-end;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            gap: 10px;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+            padding: 10px 20px; display: flex; justify-content: flex-end;
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05); gap: 10px;
         }
         .nav-btn {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-gray);
-            text-decoration: none;
-            cursor: pointer;
-            padding: 5px 12px;
-            border-radius: 20px;
-            transition: 0.2s;
-            border: 1px solid transparent;
+            font-size: 12px; font-weight: 600; color: var(--text-gray);
+            text-decoration: none; cursor: pointer; padding: 5px 12px; border-radius: 20px; transition: 0.2s;
         }
         .nav-btn:hover { background: var(--accent-blue); color: white; }
 
-        .container { max-width: 1750px; margin: 0 auto; padding: 20px 20px 40px; box-sizing: border-box; }
+        .container { max-width: 1850px; margin: 0 auto; padding: 20px 20px 40px; box-sizing: border-box; }
 
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding: 0 10px; }
         header h1 { font-size: 28px; font-weight: 800; margin: 0; }
@@ -65,7 +51,6 @@
         #cur-time { font-size: 24px; font-weight: 700; color: var(--accent-blue); }
         #cur-date { font-size: 14px; color: var(--text-gray); }
 
-        /* 통합 검색창 */
         .search-section { max-width: 850px; margin: 0 auto 60px; }
         .search-bar {
             display: flex; background: #fff; border-radius: 50px; padding: 10px 20px;
@@ -80,26 +65,34 @@
         .search-bar input { border: none; outline: none; width: 100%; font-size: 17px; padding: 10px; background: transparent; }
         .search-btn { border: none; background: none; cursor: pointer; font-size: 20px; padding: 0 10px; color: var(--accent-blue); }
 
-        /* 대시보드 본문 */
-        .dashboard-main { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .dashboard-main { 
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-auto-rows: 1px;
+            gap: 0 var(--gap-size);
+            align-items: start;
+        }
 
         .category-group {
             background: #fff; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.02); overflow: hidden; height: fit-content;
+            border: 1px solid rgba(0,0,0,0.02); overflow: hidden; 
+            margin-bottom: var(--gap-size);
+            width: 100%;
+            display: inline-block;
         }
+
         .category-title { 
             font-size: 15.5px; font-weight: 800; color: var(--text-dark);
             padding: 20px 22px; border-left: 5px solid var(--accent-blue);
-            display: flex; justify-content: space-between; align-items: center;
-            background: #fff; cursor: default;
+            background: #fff;
         }
         .bookmark-list { display: flex; flex-direction: column; gap: 6px; padding: 0 18px 20px 18px; }
         .bookmark-item {
             background: #f9f9fb; border-radius: 12px; padding: 11px 15px;
             text-decoration: none; color: inherit; display: flex; align-items: center;
-            transition: all 0.2s ease; border: 1px solid transparent;
+            transition: 0.2s; border: 1px solid transparent;
         }
-        .bookmark-item:hover { transform: translateX(4px); border-color: var(--accent-blue); background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .bookmark-item:hover { transform: translateX(4px); border-color: var(--accent-blue); background: #fff; }
         
         .icon-box {
             width: 28px; height: 28px; border-radius: 6px; background: #fff;
@@ -108,9 +101,7 @@
         }
         .icon-box img { width: 18px; height: 18px; object-fit: contain; }
         .name { font-size: 14px; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .toggle-icon { display: none; font-size: 12px; color: #ccc; transition: 0.3s; }
 
-        /* 안내 팝업 스타일 */
         #guide-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;
@@ -119,19 +110,11 @@
             background: #fff; padding: 30px; border-radius: 20px; max-width: 400px; width: 90%;
             text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
-        .modal-content h2 { margin-top: 0; font-size: 20px; }
-        .modal-content p { color: var(--text-gray); line-height: 1.6; font-size: 14px; margin: 20px 0; }
         .close-modal { background: var(--accent-blue); color: #fff; padding: 10px 25px; border-radius: 50px; cursor: pointer; border: none; font-weight: 600; }
 
         @media (max-width: 768px) {
-            .dashboard-main { grid-template-columns: 1fr; gap: 15px; }
             header { flex-direction: column; text-align: center; gap: 15px; }
-            .clock-box { text-align: center; }
-            .category-title { cursor: pointer; user-select: none; }
-            .toggle-icon { display: block; }
-            .bookmark-list { max-height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; transition: max-height 0.3s ease-out; }
-            .category-group.active .bookmark-list { max-height: 2000px; padding-top: 5px; padding-bottom: 22px; }
-            .category-group.active .toggle-icon { transform: rotate(180deg); }
+            .dashboard-main { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -171,14 +154,10 @@
         </div>
     </div>
 
-    <div class="dashboard-main" id="main-grid">
-        <div style="grid-column: 1/-1; text-align: center; padding: 100px; color: #bbb; font-weight: 600;">
-            데이터를 구성 중입니다...
-        </div>
-    </div>
+    <div class="dashboard-main" id="main-grid"></div>
 
     <div style="text-align: center; margin-top: 80px; color: #bbb; font-size: 11px; padding-bottom: 40px;">
-        © 2026 Smart Dashboard Pro.
+        © 2026 Smart Dashboard Pro. All rights reserved.
     </div>
 </div>
 
@@ -193,79 +172,80 @@
 <script>
     function showGuide(type) {
         const modal = document.getElementById('guide-modal');
-        const title = document.getElementById('modal-title');
-        const text = document.getElementById('modal-text');
-        
         if(type === 'start') {
-            title.innerText = "🏠 시작페이지 설정 방법";
-            text.innerHTML = "1. 브라우저 우측 상단 <b>[점 3개]</b> 클릭<br>2. <b>[설정] → [시작 그룹]</b> 이동<br>3. <b>[특정 페이지 열기]</b> 선택 후 현재 주소 등록!";
+            document.getElementById('modal-title').innerText = "🏠 시작페이지 설정";
+            document.getElementById('modal-text').innerHTML = "브라우저 우측 상단 [점 3개] -> [설정] -> [시작 그룹]에서 현재 주소를 등록하세요!";
         } else {
-            title.innerText = "⭐ 즐겨찾기 단축키";
-            text.innerHTML = "이 페이지를 고정하시려면 단축키를 눌러주세요!<br><br><b>Windows: Ctrl + D</b><br><b>Mac: Command + D</b>";
+            document.getElementById('modal-title').innerText = "⭐ 즐겨찾기 단축키";
+            document.getElementById('modal-text').innerHTML = "Windows: Ctrl + D / Mac: Cmd + D";
         }
         modal.style.display = 'flex';
     }
-
-    function closeModal() {
-        document.getElementById('guide-modal').style.display = 'none';
-    }
+    function closeModal() { document.getElementById('guide-modal').style.display = 'none'; }
 
     const API_URL = "https://script.google.com/macros/s/AKfycbwp_biaKSxfJMMcFcvP23s8fPHXUPwha9GbsXxX3QmBDqyVGBN4MBSDfu0zWiDMK9DK/exec";
+
+    function resizeGridItem(item){
+        const grid = document.getElementById("main-grid");
+        const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+        const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+        const contentHeight = item.getBoundingClientRect().height;
+        const verticalMargin = 25;
+        const rowSpan = Math.ceil((contentHeight + verticalMargin) / (rowHeight + rowGap));
+        item.style.gridRowEnd = "span " + rowSpan;
+    }
+
+    function resizeAllGridItems(){
+        const allItems = document.getElementsByClassName("category-group");
+        for(let x=0; x<allItems.length; x++){
+            resizeGridItem(allItems[x]);
+        }
+    }
 
     async function loadData() {
         try {
             const res = await fetch(API_URL);
             const data = await res.json();
-            renderDashboard(data);
+            await renderDashboard(data);
+            setTimeout(resizeAllGridItems, 150);
         } catch (err) {
-            console.error("데이터 로드 실패:", err);
-            document.getElementById('main-grid').innerHTML = 
-                "<div style='grid-column:1/-1; text-align:center; color:red; padding:50px;'>정보를 불러오지 못했습니다. 앱스 스크립트 배포 상태를 확인해주세요.</div>";
+            console.error(err);
         }
     }
 
     function renderDashboard(categories) {
-        const grid = document.getElementById('main-grid');
-        grid.innerHTML = ''; 
-        
-        categories.forEach((cat, idx) => {
-            const group = document.createElement('div');
-            group.className = 'category-group';
-            if(idx === 0) group.classList.add('active');
-
-            const linksHtml = cat.links.map(link => `
-                <a href="${link.url}" class="bookmark-item" target="_blank">
-                    <div class="icon-box">
-                        ${link.icon ? link.icon : `<img src="https://www.google.com/s2/favicons?domain=${link.url}&sz=64" alt="${link.name}">`}
-                    </div>
-                    <span class="name">${link.name}</span>
-                </a>
-            `).join('');
-
-            group.innerHTML = `
-                <div class="category-title" onclick="toggleCat(this.parentElement)">
-                    <span>${cat.title}</span><span class="toggle-icon">▼</span>
-                </div>
-                <div class="bookmark-list">${linksHtml}</div>
-            `;
-            grid.appendChild(group);
+        return new Promise((resolve) => {
+            const grid = document.getElementById('main-grid');
+            grid.innerHTML = ''; 
+            categories.forEach((cat) => {
+                const group = document.createElement('div');
+                group.className = 'category-group';
+                const linksHtml = cat.links.map(link => `
+                    <a href="${link.url}" class="bookmark-item" target="_blank">
+                        <div class="icon-box">${link.icon ? link.icon : `<img src="https://www.google.com/s2/favicons?domain=${link.url}&sz=64">`}</div>
+                        <span class="name">${link.name}</span>
+                    </a>
+                `).join('');
+                group.innerHTML = `<div class="category-title"><span>${cat.title}</span></div><div class="bookmark-list">${linksHtml}</div>`;
+                grid.appendChild(group);
+            });
+            resolve();
         });
     }
 
+    window.addEventListener("resize", resizeAllGridItems);
+
     function updateEngineIcon() {
         const select = document.getElementById('search-engine');
-        const domain = select.options[select.selectedIndex].getAttribute('data-domain');
-        document.getElementById('current-engine-icon').src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+        document.getElementById('current-engine-icon').src = `https://www.google.com/s2/favicons?domain=${select.options[select.selectedIndex].getAttribute('data-domain')}&sz=64`;
     }
-
     function doSearch() {
         const engine = document.getElementById('search-engine').value;
         const query = document.getElementById('search-input').value;
         if (query.trim()) window.open(engine + encodeURIComponent(query), '_blank');
     }
 
-    function toggleCat(el) { if (window.innerWidth <= 768) el.classList.toggle('active'); }
-
+    // [복구] 시간 및 인사말 업데이트 함수
     function updateClock() {
         const now = new Date();
         document.getElementById('cur-time').innerText = now.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -283,6 +263,5 @@
     updateClock();
     loadData();
 </script>
-
 </body>
 </html>
