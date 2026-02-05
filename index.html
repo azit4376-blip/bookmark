@@ -3,7 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나만의 스마트 대시보드 Pro</title>
+    
+    <meta name="google-site-verification" content="u36-FtkXCnHJ3qi2akqjFoLQ2M7pudNXb6r19_hKcMg" />
+    
+    <title>나만의 스마트 대시보드 Pro | 개인 통합 포털</title>
+    <meta name="description" content="자주 방문하는 800개 이상의 사이트를 한눈에 관리하는 개인 맞춤형 대시보드입니다. 구글 시트 연동으로 실시간 업데이트를 지원합니다.">
+    <meta name="keywords" content="대시보드, 북마크, 포털, 구글시트연동, 생산성도구, 링크관리">
+    <link rel="canonical" href="https://azit4376-blip.github.io/bookmark/">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="나만의 스마트 대시보드 Pro">
+    <meta property="og:description" content="시트 하나로 관리하는 나만의 즐겨찾기 포털">
+    <meta property="og:url" content="https://azit4376-blip.github.io/bookmark/">
+    <meta property="og:image" content="https://www.google.com/s2/favicons?domain=google.com&sz=128">
+
     <style>
         :root {
             --bg-color: #f4f7f9;
@@ -123,7 +136,7 @@
 </div>
 
 <script>
-    // 🔗 보내주신 웹 앱 URL 연결
+    // 🔗 구글 웹 앱 URL 연결
     const API_URL = "https://script.google.com/macros/s/AKfycbwp_biaKSxfJMMcFcvP23s8fPHXUPwha9GbsXxX3QmBDqyVGBN4MBSDfu0zWiDMK9DK/exec";
 
     async function loadData() {
@@ -145,12 +158,12 @@
         categories.forEach((cat, idx) => {
             const group = document.createElement('div');
             group.className = 'category-group';
-            if(idx === 0) group.classList.add('active'); // 모바일에서 첫번째 섹션만 열어둠
+            if(idx === 0) group.classList.add('active');
 
             const linksHtml = cat.links.map(link => `
                 <a href="${link.url}" class="bookmark-item" target="_blank">
                     <div class="icon-box">
-                        ${link.icon ? link.icon : `<img src="https://www.google.com/s2/favicons?domain=${link.url}&sz=64">`}
+                        ${link.icon ? link.icon : `<img src="https://www.google.com/s2/favicons?domain=${link.url}&sz=64" alt="${link.name}">`}
                     </div>
                     <span class="name">${link.name}</span>
                 </a>
@@ -195,7 +208,7 @@
 
     setInterval(updateClock, 1000);
     updateClock();
-    loadData(); // 구글 시트 데이터 로드 시작
+    loadData();
 </script>
 
 </body>
