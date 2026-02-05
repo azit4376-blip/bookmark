@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <div style="margin-bottom: 25px;">
+        <form action="https://www.google.com/search" method="GET" style="position: relative;">
+            <input type="text" name="q" placeholder="Google 검색" 
+                   style="width: 100%; padding: 14px 20px; border-radius: 14px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.03); outline: none; font-size: 15px;">
+            <button type="submit" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); border: none; background: none; cursor: pointer;">🔍</button>
+        </form>
+    </div>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MY BOOKMARK BOARD</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-white: #ffffff;
+            --text-dark: #1d1d1f;
+            --text-gray: #86868b;
+            --accent-blue: #0071e3;
+        }
+
+        body { 
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background-color: var(--bg-color); margin: 0; padding: 0;
+            display: flex; justify-content: center; color: var(--text-dark);
+        }
+        .container { width: 100%; max-width: 500px; padding: 30px 20px; box-sizing: border-box; }
+
+        header { margin-bottom: 30px; text-align: left; padding-left: 5px; }
+        header h1 { font-size: 22px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+        header p { font-size: 13px; color: var(--text-gray); margin: 5px 0 0; }
+
+        /* 섹션 구분 */
+        .section-title { 
+            font-size: 13px; font-weight: 700; color: var(--text-gray);
+            margin: 25px 0 12px 5px; display: block;
+        }
+
+        /* [핵심] 3열 북마크 그리드 */
+        .bookmark-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 12px; 
+        }
+
+        /* 개별 북마크 아이템 */
+        .bookmark-card {
+            background: var(--card-white); border-radius: 18px;
+            padding: 15px 10px; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .bookmark-card:active { transform: scale(0.92); box-shadow: none; }
+
+        /* 로고/아이콘 영역 */
+        .icon-box {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: #f9f9fb; margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; border: 1px solid #f1f1f3;
+        }
+        .icon-box img { width: 24px; height: 24px; object-fit: contain; }
+
+        .name { font-size: 12px; font-weight: 700; word-break: keep-all; }
+
+        /* 하단 유틸리티 섹션 */
+        .list-box { 
+            background: var(--card-white); border-radius: 18px; 
+            margin-top: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .list-item {
+            display: flex; align-items: center; padding: 16px;
+            text-decoration: none; color: inherit; border-bottom: 1px solid #f2f2f2;
+        }
+        .list-item:last-child { border-bottom: none; }
+        .list-item:active { background: #f9f9fb; }
+        .list-dot { width: 8px; height: 8px; background: var(--accent-blue); border-radius: 50%; margin-right: 12px; }
+        .list-text { font-size: 14px; font-weight: 600; }
+
+        .footer { text-align: center; font-size: 11px; color: #bbb; margin-top: 60px; padding-bottom: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>My Dashboard</h1>
+        <p>오늘의 주요 링크 및 북마크</p>
+    </header>
+
+    <span class="section-title">자주 방문하는 사이트</span>
+    <div class="bookmark-grid">
+        <a href="https://www.naver.com" class="bookmark-card">
+            <div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=naver.com&sz=64"></div>
+            <div class="name">네이버</div>
+        </a>
+        <a href="https://www.youtube.com" class="bookmark-card">
+            <div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64"></div>
+            <div class="name">유튜브</div>
+        </a>
+        <a href="https://www.google.com" class="bookmark-card">
+            <div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=64"></div>
+            <div class="name">구글</div>
+        </a>
+        <a href="https://github.com" class="bookmark-card">
+            <div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=64"></div>
+            <div class="name">깃허브</div>
+        </a>
+        <a href="https://www.coupang.com" class="bookmark-card">
+            <div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=coupang.com&sz=64"></div>
+            <div class="name">쿠팡</div>
+        </a>
+        <a href="https://www.instagram.com" class="bookmark-card">
+            <div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=instagram.com&sz=64"></div>
+            <div class="name">인스타</div>
+        </a>
+    </div>
+
+    <span class="section-title">업무 및 도구</span>
+    <div class="list-box">
+        <a href="https://www.notion.so" class="list-item">
+            <div class="list-dot"></div>
+            <div class="list-text">개인 노션 대시보드</div>
+        </a>
+        <a href="https://chat.openai.com" class="list-item">
+            <div class="list-dot"></div>
+            <div class="list-text">ChatGPT 바로가기</div>
+        </a>
+        <a href="https://www.canva.com" class="list-item">
+            <div class="list-dot" style="background: #8e44ad;"></div>
+            <div class="list-text">캔바 디자인 툴</div>
+        </a>
+    </div>
+
+    <div class="footer">
+        © 2026 MY SMART BOARD. ALL RIGHTS RESERVED.
+    </div>
+</div>
+
+</body>
+</html>
