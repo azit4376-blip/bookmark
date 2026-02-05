@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <div style="margin-bottom: 25px;">
-        <form action="https://www.google.com/search" method="GET" style="position: relative;">
-            <input type="text" name="q" placeholder="Google 검색" 
-                   style="width: 100%; padding: 14px 20px; border-radius: 14px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.03); outline: none; font-size: 15px;">
-            <button type="submit" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); border: none; background: none; cursor: pointer;">🔍</button>
-        </form>
-    </div>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MY BOOKMARK BOARD</title>
@@ -27,35 +20,44 @@
         }
         .container { width: 100%; max-width: 500px; padding: 30px 20px; box-sizing: border-box; }
 
-        header { margin-bottom: 30px; text-align: left; padding-left: 5px; }
+        header { margin-bottom: 25px; text-align: left; padding-left: 5px; }
         header h1 { font-size: 22px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
         header p { font-size: 13px; color: var(--text-gray); margin: 5px 0 0; }
 
-        /* 섹션 구분 */
+        /* 검색바 스타일 */
+        .search-container { margin-bottom: 30px; }
+        .search-form { position: relative; }
+        .search-input { 
+            width: 100%; padding: 14px 20px; border-radius: 16px; border: 1px solid #eee; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); outline: none; font-size: 15px;
+            box-sizing: border-box; background: var(--card-white);
+        }
+        .search-btn { 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%); 
+            border: none; background: none; cursor: pointer; font-size: 18px;
+        }
+
         .section-title { 
             font-size: 13px; font-weight: 700; color: var(--text-gray);
             margin: 25px 0 12px 5px; display: block;
         }
 
-        /* [핵심] 3열 북마크 그리드 */
         .bookmark-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
             gap: 12px; 
         }
 
-        /* 개별 북마크 아이템 */
         .bookmark-card {
             background: var(--card-white); border-radius: 18px;
             padding: 15px 10px; text-decoration: none; color: inherit;
             display: flex; flex-direction: column; align-items: center;
             justify-content: center; text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
-        .bookmark-card:active { transform: scale(0.92); box-shadow: none; }
+        .bookmark-card:active { transform: scale(0.92); }
 
-        /* 로고/아이콘 영역 */
         .icon-box {
             width: 44px; height: 44px; border-radius: 12px;
             background: #f9f9fb; margin-bottom: 10px;
@@ -63,10 +65,8 @@
             overflow: hidden; border: 1px solid #f1f1f3;
         }
         .icon-box img { width: 24px; height: 24px; object-fit: contain; }
-
         .name { font-size: 12px; font-weight: 700; word-break: keep-all; }
 
-        /* 하단 유틸리티 섹션 */
         .list-box { 
             background: var(--card-white); border-radius: 18px; 
             margin-top: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -90,6 +90,13 @@
         <h1>My Dashboard</h1>
         <p>오늘의 주요 링크 및 북마크</p>
     </header>
+
+    <div class="search-container">
+        <form action="https://www.google.com/search" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Google 검색" class="search-input">
+            <button type="submit" class="search-btn">🔍</button>
+        </form>
+    </div>
 
     <span class="section-title">자주 방문하는 사이트</span>
     <div class="bookmark-grid">
