@@ -34,7 +34,7 @@
             --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
             --radius: 16px;
             --radius-lg: 20px;
-            --gap: 20px;
+            --gap: 16px;
         }
 
         * {
@@ -229,7 +229,7 @@
         /* 대시보드 그리드 - Masonry 레이아웃 */
         .dashboard-main {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             grid-auto-rows: 1px;
             gap: 0 var(--gap);
             align-items: start;
@@ -254,7 +254,7 @@
 
         /* 카테고리 헤더 */
         .category-header {
-            padding: 20px 24px;
+            padding: 16px 20px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             cursor: pointer;
@@ -265,20 +265,20 @@
         }
 
         .category-title {
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 800;
             color: white;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .category-count {
             background: rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 11px;
             font-weight: 700;
         }
 
@@ -295,21 +295,21 @@
 
         /* 북마크 리스트 */
         .bookmark-list {
-            padding: 16px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .bookmark-item {
             background: var(--bg-light);
-            border-radius: 12px;
-            padding: 14px 16px;
+            border-radius: 10px;
+            padding: 11px 14px;
             text-decoration: none;
             color: var(--text-dark);
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             transition: all 0.2s ease;
             border: 1px solid transparent;
         }
@@ -322,9 +322,9 @@
         }
 
         .icon-box {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             background: white;
             display: flex;
             align-items: center;
@@ -336,20 +336,20 @@
         }
 
         .icon-box img {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             object-fit: contain;
         }
 
         .icon-box.emoji {
-            font-size: 18px;
+            font-size: 16px;
             border: none;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
 
         .bookmark-name {
             flex: 1;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
@@ -357,7 +357,7 @@
         }
 
         .bookmark-arrow {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--text-gray);
             opacity: 0;
             transition: opacity 0.2s ease;
@@ -499,13 +499,13 @@
             .bookmark-list {
                 max-height: 0;
                 overflow: hidden;
-                padding: 0 16px;
+                padding: 0 12px;
                 transition: all 0.3s ease;
             }
 
             .bookmark-list.active {
                 max-height: 2000px;
-                padding: 16px;
+                padding: 12px;
             }
 
             .category-group:hover {
@@ -539,25 +539,31 @@
             }
         }
 
-        @media (min-width: 769px) and (max-width: 1200px) {
+        @media (min-width: 769px) and (max-width: 1100px) {
             .dashboard-main {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (min-width: 1201px) {
+        @media (min-width: 1101px) and (max-width: 1400px) {
             .dashboard-main {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        @media (min-width: 1600px) {
+        @media (min-width: 1401px) and (max-width: 1750px) {
             .dashboard-main {
                 grid-template-columns: repeat(4, 1fr);
             }
+        }
+
+        @media (min-width: 1751px) {
+            .dashboard-main {
+                grid-template-columns: repeat(5, 1fr);
+            }
 
             .container {
-                max-width: 1800px;
+                max-width: 1850px;
             }
         }
     </style>
