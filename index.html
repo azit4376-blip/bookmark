@@ -5,97 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="u36-FtkXCnHJ3qi2akqjFoLQ2M7pudNXb6r19_hKcMg" />
     <title>스마트 대시보드 | 나만의 통합 포털 서비스</title>
-    <meta name="description" content="자주 사용하는 모든 사이트를 한눈에 관리하는 개인 맞춤형 대시보드입니다. 빠른 검색과 카테고리별 링크 정리를 지원합니다.">
+    <meta name="description" content="자주 사용하는 모든 사이트를 한눈에 관리하는 개인 맞춤형 대시보드입니다.">
     <meta name="keywords" content="대시보드, 통합포털, 즐겨찾기, 링크관리, 시작페이지">
     <link rel="canonical" href="https://azit4376-blip.github.io/bookmark/">
-    
+
     <meta property="og:type" content="website">
     <meta property="og:title" content="스마트 대시보드 Pro">
     <meta property="og:description" content="매일 방문하는 사이트들을 한 곳에서 편리하게 관리하세요.">
     <meta property="og:url" content="https://azit4376-blip.github.io/bookmark/">
     <meta property="og:image" content="https://www.google.com/s2/favicons?domain=google.com&sz=128">
 
-        <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 필요한 weight만 + 비동기 로드로 렌더 블로킹 제거 -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet"></noscript>
 
-
+    <link rel="stylesheet" href="styles.css">
+    <!-- 다크모드 깜빡임(FOUC) 방지: defer 전에 테마 즉시 적용 -->
+    <script>
+        (function(){
+            var t = localStorage.getItem('DASHBOARD_THEME');
+            if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        })();
+    </script>
 </head>
 <body>
 
-<!-- 상단 네비게이션 -->
-<div class="top-nav">
-    <div class="nav-btn" onclick="showGuide('start')">
-        <span>🏠</span>
-        <span>시작페이지</span>
-    </div>
-    <div class="nav-btn" onclick="showGuide('book')">
-        <span>⭐</span>
-        <span>즐겨찾기</span>
-    </div>
+<!-- 배경 효과 레이어 -->
+<div class="bg-layer">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <div class="bg-noise"></div>
 </div>
+
+<!-- 상단 네비게이션 -->
+<nav class="top-nav">
+    <div class="nav-brand">
+        <span class="nav-logo">⚡</span>
+        <span class="nav-title">Portal</span>
+    </div>
+    <div class="nav-actions">
+        <button class="nav-btn" onclick="showGuide('start')">
+            <span class="nav-btn-icon">🏠</span>
+            <span>시작페이지</span>
+        </button>
+        <button class="nav-btn" onclick="showGuide('book')">
+            <span class="nav-btn-icon">⭐</span>
+            <span>즐겨찾기</span>
+        </button>
+        <button class="nav-btn theme-toggle" onclick="toggleTheme()" title="테마 전환">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </div>
+</nav>
 
 <!-- 메인 컨테이너 -->
 <div class="container">
-    <!-- 헤더 -->
-    <header>
-        <div class="header-left">
-            <h1 id="greeting">Portal Master</h1>
-            <div class="subtitle">나만의 통합 대시보드</div>
+
+    <!-- 히어로 헤더 -->
+    <header class="hero-header">
+        <div class="hero-left">
+            <div class="greeting-badge">
+                <span class="pulse-dot"></span>
+                <span id="greeting-badge-text">대시보드 활성</span>
+            </div>
+            <h1 id="greeting">포털 대시보드</h1>
+            <p class="hero-sub">나만의 스마트 시작 페이지</p>
         </div>
-        <div class="clock-box">
-            <div id="cur-time"></div>
-            <div id="cur-date"></div>
+        <div class="clock-card">
+            <div id="cur-time" class="clock-time">00:00:00</div>
+            <div id="cur-date" class="clock-date">날짜 로딩 중</div>
+            <div class="clock-divider"></div>
+            <div class="weather-hint" id="weather-hint">부산 · 대한민국</div>
         </div>
     </header>
 
     <!-- 검색 섹션 -->
-    <div class="search-section">
-        <div class="search-bar">
-            <div class="engine-selector">
-                <img id="current-engine-icon" class="engine-icon" src="https://www.google.com/s2/favicons?domain=google.com&sz=64" alt="검색엔진">
-                <select class="engine-select" id="search-engine" onchange="updateEngineIcon()">
-                    <option value="https://www.google.com/search?q=" data-domain="google.com">구글</option>
-                    <option value="https://search.naver.com/search.naver?query=" data-domain="naver.com">네이버</option>
-                    <option value="https://search.daum.net/search?q=" data-domain="daum.net">다음</option>
-                    <option value="https://www.bing.com/search?q=" data-domain="bing.com">Bing</option>
-                    <option value="https://www.youtube.com/results?search_query=" data-domain="youtube.com">유튜브</option>
-                    <option value="https://namu.wiki/w/" data-domain="namu.wiki">나무위키</option>
-                    <option value="https://www.coupang.com/np/search?channel=user_side&lptag=AF1397652&q=" data-domain="coupang.com">쿠팡</option>
-                    <option value="https://www.musinsa.com/search/musinsa/integration?q=" data-domain="musinsa.com">무신사</option>
-                </select>
+    <section class="search-section">
+        <div class="search-wrap">
+            <div class="search-bar" id="search-bar">
+                <div class="engine-selector">
+                    <img id="current-engine-icon" class="engine-icon" src="https://www.google.com/s2/favicons?domain=google.com&sz=64" alt="검색엔진">
+                    <select class="engine-select" id="search-engine" onchange="updateEngineIcon()">
+                        <option value="https://www.google.com/search?q=" data-domain="google.com">구글</option>
+                        <option value="https://search.naver.com/search.naver?query=" data-domain="naver.com">네이버</option>
+                        <option value="https://search.daum.net/search?q=" data-domain="daum.net">다음</option>
+                        <option value="https://www.bing.com/search?q=" data-domain="bing.com">Bing</option>
+                        <option value="https://www.youtube.com/results?search_query=" data-domain="youtube.com">유튜브</option>
+                        <option value="https://namu.wiki/w/" data-domain="namu.wiki">나무위키</option>
+                        <option value="https://www.coupang.com/np/search?channel=user_side&lptag=AF1397652&q=" data-domain="coupang.com">쿠팡</option>
+                        <option value="https://www.musinsa.com/search/musinsa/integration?q=" data-domain="musinsa.com">무신사</option>
+                    </select>
+                    <span class="engine-divider"></span>
+                </div>
+                <input type="text" id="search-input" 
+                    placeholder="검색어를 입력하세요..." 
+                    onkeypress="if(event.keyCode==13) doSearch();"
+                    autocomplete="off">
+                <button class="search-btn" onclick="doSearch()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
             </div>
-            <input type="text" id="search-input" placeholder="검색어를 입력하세요" onkeypress="if(event.keyCode==13) doSearch();">
-            <button class="search-btn" onclick="doSearch()">🔍</button>
+            <!-- 빠른 검색 태그 -->
+            <div class="quick-tags" id="quick-tags">
+                <span class="tag-label">최근:</span>
+                <!-- 검색 기록이 JS로 삽입됨 -->
+                <span class="tag-empty" id="tag-empty">검색 기록 없음</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 카테고리 필터 탭 -->
+    <div class="filter-bar-wrap">
+        <div class="filter-bar" id="filter-bar">
+            <button class="filter-chip active" data-filter="all" onclick="filterCategory('all', this)">
+                <span>🗂️</span> 전체
+            </button>
+        </div>
+        <div class="filter-scrollbar" id="filter-scrollbar">
+            <div class="filter-scrollbar-thumb" id="filter-scrollbar-thumb"></div>
         </div>
     </div>
 
     <!-- 대시보드 그리드 -->
     <div class="dashboard-main" id="main-grid">
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
+        <!-- 스켈레톤 로딩 -->
+        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item"></div><div class="sk-item short"></div><div class="sk-item"></div></div>
+        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item"></div><div class="sk-item"></div><div class="sk-item short"></div><div class="sk-item"></div></div>
+        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item short"></div><div class="sk-item"></div></div>
+        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item"></div><div class="sk-item"></div><div class="sk-item short"></div></div>
+    </div>
+
+    <!-- 빠른 통계 바 -->
+    <div class="stats-bar" id="stats-bar" style="display:none">
+        <div class="stat-item">
+            <span class="stat-num" id="stat-total">0</span>
+            <span class="stat-label">총 링크</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-num" id="stat-cats">0</span>
+            <span class="stat-label">카테고리</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-num" id="stat-today">0</span>
+            <span class="stat-label">오늘 방문</span>
+        </div>
     </div>
 
     <!-- 푸터 -->
-    <div class="footer">
-        © 2026 Smart Dashboard Pro. All rights reserved.
-    </div>
+    <footer class="footer">
+        <span>© 2026 Smart Dashboard Pro</span>
+        <span class="footer-dot">·</span>
+        <span>데이터는 자동 동기화됩니다</span>
+    </footer>
 </div>
 
 <!-- 가이드 모달 -->
-<div id="guide-modal">
-    <div class="modal-content">
+<div id="guide-modal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="modal-close-x" onclick="closeModal()">✕</button>
+        <div class="modal-icon" id="modal-icon">🏠</div>
         <h2 id="modal-title">안내</h2>
         <p id="modal-text"></p>
-        <button class="close-modal" onclick="closeModal()">확인</button>
+        <button class="modal-confirm" onclick="closeModal()">확인했어요</button>
     </div>
 </div>
 
-    <script src="script.js" defer></script>
+<!-- 토스트 알림 -->
+<div class="toast" id="toast"></div>
 
-
+<script src="script.js" defer></script>
 
 </body>
 </html>
