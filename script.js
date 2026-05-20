@@ -270,25 +270,50 @@ window.addEventListener('resize', () => {
 }, { passive: true });
 
 // ── 데이터 로드 ───────────────────────────────────
-async function loadData() {
-    const cached = localStorage.getItem(STORAGE_KEY);
-    if (cached) {
-        try {
-            const data = JSON.parse(cached);
-            renderDashboard(data);
-        } catch {}
-    }
-
+// 캐시가 있으면 즉시 동기 렌더 → 스켈레톤 없이 바로 카드 표시
+// 이후 백그라운드에서 API 갱신, 변경분 있을 때만 재렌더
+function renderFromCache() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
     try {
-        const res     = await fetch(API_URL);
+        // fromCache=true → 애니메이션 없이 즉시 표시, 스켈레톤도 제거
+        renderDashboard(JSON.parse(raw), true);
+        return true;
+    } catch {
+        localStorage.removeItem(STORAGE_KEY); // 깨진 캐시 제거
+        return false;
+    }
+}
+
+async function fetchUpdate() {
+    try {
+        const res    = await fetch(API_URL);
         const newData = await res.json();
-        if (JSON.stringify(newData) !== cached) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(newData));
-            renderDashboard(newData);
+        const newStr  = JSON.stringify(newData);
+        const oldStr  = localStorage.getItem(STORAGE_KEY);
+
+        if (newStr !== oldStr) {
+            localStorage.setItem(STORAGE_KEY, newStr);
+            // 백그라운드 갱신은 애니메이션 없이 조용히
+            renderDashboard(newData, true);
         }
     } catch (err) {
         console.error('데이터 갱신 실패:', err);
-        if (!cached) showToast('⚠️ 데이터를 불러오지 못했습니다');
+        if (!localStorage.getItem(STORAGE_KEY)) {
+            showToast('⚠️ 데이터를 불러오지 못했습니다');
+        }
+    }
+}
+
+async function loadData() {
+    const hasCached = renderFromCache();
+    // 캐시 렌더가 끝난 뒤 백그라운드 갱신
+    // 캐시 없으면 즉시, 있으면 약간 지연해서 초기 렌더 완료 후 fetch
+    if (hasCached) {
+        // 페이지가 안정된 뒤 조용히 업데이트
+        setTimeout(fetchUpdate, 800);
+    } else {
+        fetchUpdate();
     }
 }
 
@@ -303,7 +328,8 @@ function scheduleRecalc(delay = 0) {
     }
 }
 
-function renderDashboard(categories) {
+// fromCache=true 이면 카드 등장 애니메이션 생략 (깜빡임 방지)
+function renderDashboard(categories, fromCache = false) {
     const grid = document.getElementById('main-grid');
     grid.innerHTML = '';
     allData = categories;
@@ -319,7 +345,13 @@ function renderDashboard(categories) {
         const group   = document.createElement('div');
         group.className       = 'category-group';
         group.dataset.catTitle = cat.title;
-        group.style.animationDelay = `${index * 0.045}s`;
+        // 캐시 렌더일 때는 애니메이션 딜레이 없이 즉시 표시
+        if (!fromCache) {
+            group.style.animationDelay = `${index * 0.045}s`;
+        } else {
+            group.style.animation = 'none';
+            group.style.opacity   = '1';
+        }
 
         const icon  = extractEmoji(cat.title) || '📁';
         const label = cat.title.replace(/^[\p{Emoji}\s]+/u, '').trim() || cat.title;
@@ -331,8 +363,9 @@ function renderDashboard(categories) {
             } else {
                 try {
                     const domain = new URL(link.url).hostname;
-                    // loading="lazy" + width/height으로 CLS 방지
-                    iconHtml = `<div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=${domain}&sz=64" alt="${link.name}" width="17" height="17" loading="lazy"></div>`;
+                    // 캐시 렌더: eager(브라우저 캐시 히트) / 최초 렌더: lazy
+                    const loadAttr = fromCache ? 'eager' : 'lazy';
+                    iconHtml = `<div class="icon-box"><img src="https://www.google.com/s2/favicons?domain=${domain}&sz=64" alt="${link.name}" width="17" height="17" loading="${loadAttr}"></div>`;
                 } catch {
                     iconHtml = `<div class="icon-box emoji">🔗</div>`;
                 }
@@ -369,7 +402,9 @@ function renderDashboard(categories) {
     grid.appendChild(fragment); // DOM에 한 번에 삽입
 
     // 이미지 로드 완료 후 Masonry 재계산
+    // 캐시 렌더: 파비콘이 브라우저 캐시에 있으므로 img.complete=true → 즉시 계산
     let pending = imgList.filter(img => !img.complete).length;
+    const safetyMs = fromCache ? 150 : 600;
 
     if (pending === 0) {
         scheduleRecalc();
@@ -381,8 +416,7 @@ function renderDashboard(categories) {
                 img.addEventListener('error', done, { once: true });
             }
         });
-        // 안전장치: 600ms 후 강제 재계산
-        scheduleRecalc(600);
+        scheduleRecalc(safetyMs);
     }
 
     updateStats(categories);
