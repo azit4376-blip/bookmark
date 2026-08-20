@@ -1,188 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="u36-FtkXCnHJ3qi2akqjFoLQ2M7pudNXb6r19_hKcMg" />
-    <title>스마트 대시보드 | 나만의 통합 포털 서비스</title>
-    <meta name="description" content="자주 사용하는 모든 사이트를 한눈에 관리하는 개인 맞춤형 대시보드입니다.">
-    <meta name="keywords" content="대시보드, 통합포털, 즐겨찾기, 링크관리, 시작페이지">
-    <link rel="canonical" href="https://azit4376-blip.github.io/bookmark/">
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="스마트 대시보드 Pro">
-    <meta property="og:description" content="매일 방문하는 사이트들을 한 곳에서 편리하게 관리하세요.">
-    <meta property="og:url" content="https://azit4376-blip.github.io/bookmark/">
-    <meta property="og:image" content="https://www.google.com/s2/favicons?domain=google.com&sz=128">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- 필요한 weight만 + 비동기 로드로 렌더 블로킹 제거 -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet"></noscript>
-
-    <link rel="stylesheet" href="styles.css">
-    <!-- 다크모드 깜빡임(FOUC) 방지: defer 전에 테마 즉시 적용 -->
-    <script>
-        (function(){
-            var t = localStorage.getItem('DASHBOARD_THEME');
-            if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-        })();
-    </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="google-site-verification" content="u36-FtkXCnHJ3qi2akqjFoLQ2M7pudNXb6r19_hKcMg">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://www.google.com; connect-src https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>LinkDesk | 업무용 링크 디렉터리</title>
+  <meta name="description" content="업무와 일상에 필요한 사이트를 카테고리별로 빠르게 찾는 링크 디렉터리입니다.">
+  <link rel="canonical" href="https://azit4376-blip.github.io/bookmark/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LinkDesk | 업무용 링크 디렉터리">
+  <meta property="og:description" content="필요한 사이트를 검색하고 카테고리별로 빠르게 여세요.">
+  <meta property="og:url" content="https://azit4376-blip.github.io/bookmark/">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#directory">콘텐츠로 바로가기</a>
 
-<!-- 배경 효과 레이어 -->
-<div class="bg-layer">
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-orb orb-3"></div>
-    <div class="bg-noise"></div>
-</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="LinkDesk 홈">
+        <span class="brand-mark" aria-hidden="true">LD</span>
+        <span class="brand-copy">
+          <strong>LinkDesk</strong>
+          <small>Workspace directory</small>
+        </span>
+      </a>
 
-<!-- 상단 네비게이션 -->
-<nav class="top-nav">
-    <div class="nav-brand">
-        <span class="nav-logo">⚡</span>
-        <span class="nav-title">Portal</span>
+      <nav class="header-actions" aria-label="페이지 도구">
+        <button class="text-button" type="button" data-guide="start">시작페이지 설정</button>
+        <button class="text-button" type="button" data-guide="bookmark">즐겨찾기 안내</button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="다크 모드로 전환" title="화면 테마 전환">
+          <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.3 15.5A8.5 8.5 0 0 1 8.5 3.7 8.5 8.5 0 1 0 20.3 15.5Z"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+        </button>
+      </nav>
     </div>
-    <div class="nav-actions">
-        <button class="nav-btn" onclick="showGuide('start')">
-            <span class="nav-btn-icon">🏠</span>
-            <span>시작페이지</span>
-        </button>
-        <button class="nav-btn" onclick="showGuide('book')">
-            <span class="nav-btn-icon">⭐</span>
-            <span>즐겨찾기</span>
-        </button>
-        <button class="nav-btn theme-toggle" onclick="toggleTheme()" title="테마 전환">
-            <span id="theme-icon">🌙</span>
-        </button>
-    </div>
-</nav>
+  </header>
 
-<!-- 메인 컨테이너 -->
-<div class="container">
-
-    <!-- 히어로 헤더 -->
-    <header class="hero-header">
-        <div class="hero-left">
-            <div class="greeting-badge">
-                <span class="pulse-dot"></span>
-                <span id="greeting-badge-text">대시보드 활성</span>
-            </div>
-            <h1 id="greeting">포털 대시보드</h1>
-            <p class="hero-sub">나만의 스마트 시작 페이지</p>
+  <main id="directory" class="page-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">CURATED LINK DIRECTORY</p>
+        <h1 id="page-title">필요한 사이트를<br>빠르게 찾으세요.</h1>
+        <p class="hero-description">업무 도구부터 생활 정보까지, 검토된 링크를 한곳에서 검색하고 바로 이동할 수 있습니다.</p>
+      </div>
+      <dl class="summary-panel" aria-label="디렉터리 요약">
+        <div>
+          <dt>링크</dt>
+          <dd id="summary-links">—</dd>
         </div>
-        <div class="clock-card">
-            <div id="cur-time" class="clock-time">00:00:00</div>
-            <div id="cur-date" class="clock-date">날짜 로딩 중</div>
-            <div class="clock-divider"></div>
-            <div class="weather-hint" id="weather-hint">부산 · 대한민국</div>
+        <div>
+          <dt>카테고리</dt>
+          <dd id="summary-categories">—</dd>
         </div>
-    </header>
-
-    <!-- 검색 섹션 -->
-    <section class="search-section">
-        <div class="search-wrap">
-            <div class="search-bar" id="search-bar">
-                <div class="engine-selector">
-                    <img id="current-engine-icon" class="engine-icon" src="https://www.google.com/s2/favicons?domain=google.com&sz=64" alt="검색엔진">
-                    <select class="engine-select" id="search-engine" onchange="updateEngineIcon()">
-                        <option value="https://www.google.com/search?q=" data-domain="google.com">구글</option>
-                        <option value="https://search.naver.com/search.naver?query=" data-domain="naver.com">네이버</option>
-                        <option value="https://search.daum.net/search?q=" data-domain="daum.net">다음</option>
-                        <option value="https://www.bing.com/search?q=" data-domain="bing.com">Bing</option>
-                        <option value="https://www.youtube.com/results?search_query=" data-domain="youtube.com">유튜브</option>
-                        <option value="https://namu.wiki/w/" data-domain="namu.wiki">나무위키</option>
-                        <option value="https://www.coupang.com/np/search?channel=user_side&lptag=AF1397652&q=" data-domain="coupang.com">쿠팡</option>
-                        <option value="https://www.musinsa.com/search/musinsa/integration?q=" data-domain="musinsa.com">무신사</option>
-                    </select>
-                    <span class="engine-divider"></span>
-                </div>
-                <input type="text" id="search-input" 
-                    placeholder="검색어를 입력하세요..." 
-                    onkeypress="if(event.keyCode==13) doSearch();"
-                    autocomplete="off">
-                <button class="search-btn" onclick="doSearch()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </button>
-            </div>
-            <!-- 빠른 검색 태그 -->
-            <div class="quick-tags" id="quick-tags">
-                <span class="tag-label">최근:</span>
-                <!-- 검색 기록이 JS로 삽입됨 -->
-                <span class="tag-empty" id="tag-empty">검색 기록 없음</span>
-            </div>
+        <div>
+          <dt>상태</dt>
+          <dd><span class="sync-status" id="sync-status" data-state="loading">불러오는 중</span></dd>
         </div>
+      </dl>
     </section>
 
-    <!-- 카테고리 필터 탭 -->
-    <div class="filter-bar-wrap">
-        <div class="filter-bar" id="filter-bar">
-            <button class="filter-chip active" data-filter="all" onclick="filterCategory('all', this)">
-                <span>🗂️</span> 전체
-            </button>
+    <section class="search-panel" aria-labelledby="search-title">
+      <div class="search-heading">
+        <div>
+          <h2 id="search-title">통합 검색</h2>
+          <p>입력하는 동안 북마크가 필터링됩니다. Enter를 누르면 선택한 검색엔진에서 검색합니다.</p>
         </div>
-        <div class="filter-scrollbar" id="filter-scrollbar">
-            <div class="filter-scrollbar-thumb" id="filter-scrollbar-thumb"></div>
-        </div>
-    </div>
+        <kbd>/</kbd>
+      </div>
 
-    <!-- 대시보드 그리드 -->
-    <div class="dashboard-main" id="main-grid">
-        <!-- 스켈레톤 로딩 -->
-        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item"></div><div class="sk-item short"></div><div class="sk-item"></div></div>
-        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item"></div><div class="sk-item"></div><div class="sk-item short"></div><div class="sk-item"></div></div>
-        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item short"></div><div class="sk-item"></div></div>
-        <div class="skeleton-card"><div class="sk-header"></div><div class="sk-item"></div><div class="sk-item"></div><div class="sk-item short"></div></div>
-    </div>
+      <form class="search-form" id="search-form" role="search">
+        <label class="field field-engine">
+          <span>검색엔진</span>
+          <select id="search-engine">
+            <option value="https://www.google.com/search?q=">Google</option>
+            <option value="https://search.naver.com/search.naver?query=">Naver</option>
+            <option value="https://www.bing.com/search?q=">Bing</option>
+            <option value="https://www.youtube.com/results?search_query=">YouTube</option>
+            <option value="https://namu.wiki/Search?q=">나무위키</option>
+          </select>
+        </label>
 
-    <!-- 빠른 통계 바 -->
-    <div class="stats-bar" id="stats-bar" style="display:none">
-        <div class="stat-item">
-            <span class="stat-num" id="stat-total">0</span>
-            <span class="stat-label">총 링크</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-            <span class="stat-num" id="stat-cats">0</span>
-            <span class="stat-label">카테고리</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-            <span class="stat-num" id="stat-today">0</span>
-            <span class="stat-label">오늘 방문</span>
-        </div>
-    </div>
+        <label class="field field-query">
+          <span>검색어</span>
+          <span class="query-control">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+            <input id="search-input" type="search" placeholder="사이트명, 카테고리 또는 도메인" autocomplete="off" spellcheck="false">
+          </span>
+        </label>
 
-    <!-- 푸터 -->
-    <footer class="footer">
-        <span>© 2026 Smart Dashboard Pro</span>
-        <span class="footer-dot">·</span>
-        <span>데이터는 자동 동기화됩니다</span>
+        <button class="primary-button" type="submit">
+          <span>웹 검색</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"></path></svg>
+        </button>
+      </form>
+    </section>
+
+    <section class="directory-toolbar" aria-label="디렉터리 필터">
+      <label class="category-field">
+        <span>카테고리</span>
+        <select id="category-filter">
+          <option value="all">전체 카테고리</option>
+        </select>
+      </label>
+      <p class="result-count" id="result-count" aria-live="polite">데이터를 불러오고 있습니다.</p>
+      <div class="toolbar-actions">
+        <button class="secondary-button" id="clear-filter" type="button">필터 초기화</button>
+        <button class="secondary-button" id="retry-load" type="button" hidden>다시 불러오기</button>
+      </div>
+    </section>
+
+    <section class="directory-grid" id="main-grid" aria-label="북마크 카테고리" aria-busy="true">
+      <div class="loading-state" id="loading-state">
+        <span class="spinner" aria-hidden="true"></span>
+        <strong>링크 디렉터리를 준비하고 있습니다.</strong>
+        <span>저장된 데이터가 있으면 먼저 표시합니다.</span>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p><strong>LinkDesk</strong> · Google Sheets와 자동 동기화</p>
+      <p>마지막 동기화 <time id="last-sync">—</time></p>
     </footer>
-</div>
+  </main>
 
-<!-- 가이드 모달 -->
-<div id="guide-modal" class="modal-overlay">
-    <div class="modal-box">
-        <button class="modal-close-x" onclick="closeModal()">✕</button>
-        <div class="modal-icon" id="modal-icon">🏠</div>
-        <h2 id="modal-title">안내</h2>
-        <p id="modal-text"></p>
-        <button class="modal-confirm" onclick="closeModal()">확인했어요</button>
-    </div>
-</div>
+  <dialog class="guide-dialog" id="guide-dialog" aria-labelledby="guide-title">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-header">
+        <span class="dialog-mark" aria-hidden="true">i</span>
+        <button class="dialog-close" value="close" aria-label="안내 닫기">×</button>
+      </div>
+      <h2 id="guide-title">안내</h2>
+      <div class="dialog-copy" id="guide-copy"></div>
+      <button class="primary-button dialog-confirm" value="close">확인</button>
+    </form>
+  </dialog>
 
-<!-- 토스트 알림 -->
-<div class="toast" id="toast"></div>
-
-<script src="script.js" defer></script>
-
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">이 페이지에서 링크를 불러오려면 JavaScript를 허용해 주세요.</p></noscript>
 </body>
 </html>
